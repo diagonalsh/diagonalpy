@@ -13,9 +13,22 @@ jobs:
     strategy:
       matrix:
         python-version: ['3.9', '3.10', '3.11', '3.12']
+        dependency-set: [
+          {
+            'scikit-learn': '1.6.1',
+          },
+          {
+            'scikit-learn': '1.0',
+          },
+          {
+            'scikit-learn': 'latest',
+          }
+        ]
+
+    name: Python ${{ matrix.python-version }} - Dependencies ${{ toJSON(matrix.dependency-set) }}
 
     steps:
-    - uses: actions/checkout@v4  # Add this line to checkout the code
+    - uses: actions/checkout@v4
 
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v5
@@ -29,7 +42,17 @@ jobs:
     - name: Install dependencies
       run: |
         uv pip install pytest --system
+        # Install specific dependency versions
+        if [ "${{ matrix.dependency-set.scikit-learn }}" != "latest" ]; then
+          uv pip install "scikit-learn==${{ matrix.dependency-set.scikit-learn }}" --system
+        else
+          uv pip install "scikit-learn" --system
+        fi
         uv pip install . --system
+
+    - name: Show installed versions
+      run: |
+        pip list
 
     - name: Run tests
       run: |
@@ -39,7 +62,14 @@ jobs:
       if: always()
       uses: actions/upload-artifact@v3
       with:
-        name: pytest-results-${{ matrix.python-version }}
+        name: pytest-results-py${{ matrix.python-version }}-${{ hashFiles('pip list') }}
         path: |
           .pytest_cache
           test-reports/
+
+    - name: Report dependency versions
+      if: always()
+      run: |
+        echo "Python version: ${{ matrix.python-version }}" >> $GITHUB_STEP_SUMMARY
+        echo "Dependency versions:" >> $GITHUB_STEP_SUMMARY
+        pip list >> $GITHUB_STEP_SUMMARY
