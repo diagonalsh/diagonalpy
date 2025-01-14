@@ -110,7 +110,7 @@ def verify_conversion_linear_regression(
     return np.allclose(sklearn_pred, pytorch_pred, rtol=rtol)
 
 
-def export_linear_regression(model: Any) -> nn.Module:
+def convert_linear_regression(model: Any) -> nn.Module:
     test_array = np.random.randn(100, model.coef_.shape[0])
 
     rtol = 1e-10
@@ -246,9 +246,9 @@ def verify_conversion_logistic_regression(
     return np.allclose(sklearn_pred, pytorch_pred, rtol=rtol)
 
 
-def export_logistic_regression(model: Any) -> nn.Module:
+def convert_logistic_regression(model: Any) -> nn.Module:
     """
-    Export a scikit-learn LogisticRegression model to PyTorch with automatic
+    Convert a scikit-learn LogisticRegression model to PyTorch with automatic
     verification.
 
     Parameters:
