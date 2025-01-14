@@ -16,12 +16,15 @@ jobs:
         dependency-set: [
           {
             'scikit-learn': '1.6.1',
+            'numpy': '2.2.1'
           },
           {
             'scikit-learn': '1.0',
+            'numpy': '1.21.1'
           },
           {
             'scikit-learn': 'latest',
+            'numpy': 'latest'
           }
         ]
 
@@ -47,6 +50,11 @@ jobs:
           uv pip install "scikit-learn==${{ matrix.dependency-set.scikit-learn }}" --system
         else
           uv pip install "scikit-learn" --system
+        fi
+        if [ "${{ matrix.dependency-set.numpy }}" != "latest" ]; then
+          uv pip install "numpy==${{ matrix.dependency-set.numpy }}" --system
+        else
+          uv pip install "numpy" --system
         fi
         uv pip install . --system
 
