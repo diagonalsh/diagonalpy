@@ -17,7 +17,8 @@ def export(model: Any, model_name: str) -> dict[str, Any]:
         try:
             pytorch_model, input_size = convert(model)
 
-            onnx_path = Path(temp_dir) / model_name
+            onnx_path = Path(temp_dir) / f"{model_name}.onnx"
+
             torch.onnx.export(pytorch_model, torch.randn(1, input_size), onnx_path)
 
             headers = {
