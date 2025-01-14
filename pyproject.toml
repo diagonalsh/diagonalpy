@@ -2,10 +2,10 @@
 authors = [
     {name = "Leon Luithlen"},
 ]
-requires-python = "==3.12.7"
+requires-python = ">=3.9"  # This allows Python 3.9 and higher
 dependencies = [
-    "scikit-learn<2.0.0,>=1.5.1",
-    "torch<3.0.0,>=2.5.1"
+    "scikit-learn>=1.0.0",  # More permissive lower bound
+    "torch>=2.0.0"         # More permissive lower bound
 ]
 name = "diagonalpy"
 version = "0.1.0"
@@ -13,7 +13,6 @@ description = "diagonalsh sdk for python"
 
 [dependency-groups]
 dev = [
-    "ruff<1.0.0,>=0.9.1",
-    "pytest<9.0.0,>=8.3.4"
+    "ruff>=0.9.0",     # Remove upper bound for development tools
+    "pytest>=8.0.0"    # Remove upper bound for development tools
 ]
-
