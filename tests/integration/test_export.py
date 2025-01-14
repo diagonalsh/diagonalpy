@@ -1,8 +1,10 @@
-import pytest
 import numpy as np
 from sklearn.linear_model import LinearRegression
 from diagonalpy.export import export
-from diagonalpy.sklearn.linear_model import convert_sklearn_linear_to_pytorch, verify_conversion, export_linear_regression
+from diagonalpy.sklearn.linear_model import (
+    convert_sklearn_linear_to_pytorch,
+)
+
 
 def test_export():
     lr = LinearRegression()

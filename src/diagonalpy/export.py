@@ -8,5 +8,5 @@ def export(model: Any) -> None:
         pytorch_model = export_linear_regression(model)
     else:
         raise NotImplementedError(f"Export not currently implemented for {type(model)}")
-    
+
     return pytorch_model
