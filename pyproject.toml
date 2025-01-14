@@ -4,8 +4,9 @@ authors = [
 ]
 requires-python = ">=3.9"  # This allows Python 3.9 and higher
 dependencies = [
-    "scikit-learn>=1.0.0",  # More permissive lower bound
-    "torch>=2.0.0"         # More permissive lower bound
+    "scikit-learn>=1.2.0",  # More permissive lower bound
+    "torch>=2.0.0".         # More permissive lower bound
+    "numpy>=1.24.0"
 ]
 name = "diagonalpy"
 version = "0.1.0"
