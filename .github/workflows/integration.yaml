@@ -27,6 +27,10 @@ jobs:
             'numpy': 'latest'
           }
         ]
+        exclude:
+          - python-version: '3.9'
+            dependency-set: {'scikit-learn': '1.6.1', 'numpy': '2.2.1'}
+
 
     name: Python ${{ matrix.python-version }} - Dependencies ${{ toJSON(matrix.dependency-set) }}
 
