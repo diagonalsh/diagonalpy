@@ -7,7 +7,7 @@ import torch
 from requests.exceptions import RequestException
 from diagonalpy.convert import convert
 
-API_TIMEOUT = 300  # seconds
+API_TIMEOUT = 600  # seconds
 API_URL = "http://localhost:8000/model-upload-api"
 
 
