@@ -8,7 +8,7 @@ from requests.exceptions import RequestException
 from diagonalpy.convert import convert
 
 API_TIMEOUT = 300  # seconds
-API_URL = "https://api.diagonal.sh/v1/models"
+API_URL = "http://localhost:8000/model-upload-api"
 
 
 def export(
@@ -29,17 +29,16 @@ def export(
 
         try:
             torch.onnx.export(pytorch_model, torch.randn(1, input_size), onnx_path)
-        except torch.onnx.ExportError as e:
+        except Exception as e:
             raise ValueError(f"Failed to export model to ONNX: {str(e)}")
 
         headers = {
             "Authorization": f"Bearer {api_key}",
-            "Content-Type": "application/octet-stream",
         }
 
         try:
             with open(onnx_path, "rb") as f:
-                files = {"model": (onnx_path.name, f)}
+                files = {"file": (onnx_path.name, f)}  # Changed from "model" to "file"
                 response = requests.post(
                     API_URL, headers=headers, files=files, timeout=API_TIMEOUT
                 )
