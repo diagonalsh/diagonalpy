@@ -15,5 +15,5 @@ def convert(model: Any) -> None:
         raise NotImplementedError(
             f"Convert not currently implemented for {type(model)}"
         )
-
+    assert False
     return pytorch_model, input_size
