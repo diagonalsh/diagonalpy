@@ -7,7 +7,8 @@ dependencies = [
     "scikit-learn>=1.2.0",  # More permissive lower bound
     "torch>=2.0.0",         # More permissive lower bound
     "numpy>=1.24.0",
-    "onnx>=1.13.0"
+    "onnx>=1.13.0",
+    "requests>=2.28.0"
 ]
 name = "diagonalpy"
 version = "0.1.0"
