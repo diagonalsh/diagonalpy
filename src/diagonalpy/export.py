@@ -19,6 +19,12 @@ def export(
     if api_key is None:
         raise EnvironmentError("Please set DIAGONALSH_API_KEY")
 
+    aws_region = os.getenv("DIAGONALSH_REGION")
+    if aws_region is None:
+        raise EnvironmentError(
+            "Please set DIAGONALSH_REGION. See https://diagonal.sh/regions to see available regions"
+        )
+
     with tempfile.TemporaryDirectory() as temp_dir:
         try:
             pytorch_model, input_size = convert(model)
@@ -32,9 +38,7 @@ def export(
         except Exception as e:
             raise ValueError(f"Failed to export model to ONNX: {str(e)}")
 
-        headers = {
-            "Authorization": f"Bearer {api_key}",
-        }
+        headers = {"Authorization": f"Bearer {api_key}", "X-AWS-Region": aws_region}
 
         try:
             with open(onnx_path, "rb") as f:
