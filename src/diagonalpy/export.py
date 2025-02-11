@@ -8,7 +8,7 @@ from requests.exceptions import RequestException
 from diagonalpy.convert import convert
 
 API_TIMEOUT = 600  # seconds
-API_URL = "http://localhost:8000/model-upload-api"
+API_URL = "https://api.diagonal.sh/model-upload-api"
 
 
 def export(
