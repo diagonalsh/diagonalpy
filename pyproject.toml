@@ -8,7 +8,6 @@ authors = [
 requires-python = ">=3.9"
 dependencies = [
     "scikit-learn>=1.2.0",
-    "torch>=2.0.0",
     "numpy>=1.24.0",
     "onnx>=1.13.0",
     "requests>=2.28.0"
@@ -44,6 +43,10 @@ excludes = [
 ]
 
 [[tool.pdm.source]]
-name = "torch"
+name = "torch-cpu"  # More explicit name
 url = "https://download.pytorch.org/whl/cpu"
 type = "index"
+
+# Specify torch dependency separately to use the CPU-only version
+[tool.pdm.dependencies]
+torch = {version = ">=2.0.0", index = "torch-cpu"}  # Explicitly use CPU-only index
