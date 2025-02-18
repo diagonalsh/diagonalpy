@@ -126,6 +126,8 @@ def convert_linear_regression(model: Any) -> nn.Module:
             print(f"Conversion succeeded at {rtol:.1e}")
             return pytorch_model, model.coef_.shape[0]
 
+    raise ValueError("Could not convert model within acceptable tolerance")
+
 
 def convert_sklearn_logistic_to_pytorch(
     sklearn_model: LogisticRegression,
