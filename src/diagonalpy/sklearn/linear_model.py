@@ -1,3 +1,5 @@
+import os
+import warnings
 import torch
 import torch.nn as nn
 import numpy as np
@@ -120,13 +122,19 @@ def convert_linear_regression(model: Any) -> nn.Module:
             verify_conversion_linear_regression(model, pytorch_model, test_array, rtol)
             is False
         ):
-            print(f"Conversion failed at {rtol:.1e}")
             rtol *= 10
         else:
             print(f"Conversion succeeded at {rtol:.1e}")
             return pytorch_model, model.coef_.shape[0]
 
-    raise ValueError("Could not convert model within acceptable tolerance")
+    export_without_meeting_tolerance = os.getenv(
+        "DIAGONALPY_EXPORT_WITHOUT_MEETING_TOLERANCE", False
+    )
+    if export_without_meeting_tolerance:
+        warnings.warn("Exporting despite not fulfilling tolerance threshold of 1e-2")
+        return pytorch_model, model.coef_.shape[0]
+    else:
+        raise ValueError("Could not convert model within acceptable tolerance")
 
 
 def convert_sklearn_logistic_to_pytorch(
@@ -274,10 +282,16 @@ def convert_logistic_regression(model: Any) -> nn.Module:
             )
             is False
         ):
-            print(f"Conversion failed at {rtol:.1e}")
             rtol *= 10
         else:
             print(f"Conversion succeeded at {rtol:.1e}")
             return pytorch_model, model.coef_.shape[0]
 
-    raise ValueError("Could not convert model within acceptable tolerance")
+    export_without_meeting_tolerance = os.getenv(
+        "DIAGONALPY_EXPORT_WITHOUT_MEETING_TOLERANCE", False
+    )
+    if export_without_meeting_tolerance:
+        warnings.warn("Exporting despite not fulfilling tolerance threshold of 1e-2")
+        return pytorch_model, model.coef_.shape[0]
+    else:
+        raise ValueError("Could not convert model within acceptable tolerance")
