@@ -127,8 +127,11 @@ def convert_linear_regression(model: Any) -> nn.Module:
             print(f"Conversion succeeded at {rtol:.1e}")
             return pytorch_model, model.coef_.shape[0]
 
-    export_without_meeting_tolerance = os.getenv(
-        "DIAGONALPY_EXPORT_WITHOUT_MEETING_TOLERANCE", False
+    export_without_meeting_tolerance_str = os.getenv(
+        "DIAGONALPY_EXPORT_WITHOUT_MEETING_TOLERANCE", "False"
+    )
+    export_without_meeting_tolerance = (
+        True if export_without_meeting_tolerance_str == "True" else False
     )
     if export_without_meeting_tolerance:
         warnings.warn("Exporting despite not fulfilling tolerance threshold of 1e-2")
@@ -287,8 +290,11 @@ def convert_logistic_regression(model: Any) -> nn.Module:
             print(f"Conversion succeeded at {rtol:.1e}")
             return pytorch_model, model.coef_.shape[0]
 
-    export_without_meeting_tolerance = os.getenv(
-        "DIAGONALPY_EXPORT_WITHOUT_MEETING_TOLERANCE", False
+    export_without_meeting_tolerance_str = os.getenv(
+        "DIAGONALPY_EXPORT_WITHOUT_MEETING_TOLERANCE", "False"
+    )
+    export_without_meeting_tolerance = (
+        True if export_without_meeting_tolerance_str == "True" else False
     )
     if export_without_meeting_tolerance:
         warnings.warn("Exporting despite not fulfilling tolerance threshold of 1e-2")
