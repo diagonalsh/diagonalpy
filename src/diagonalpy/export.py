@@ -27,7 +27,7 @@ def export(
 
     with tempfile.TemporaryDirectory() as temp_dir:
         try:
-            pytorch_model, input_size = convert(model)
+            pytorch_model, input_size, model_type = convert(model)
         except Exception as e:
             raise ValueError(f"Failed to convert model: {str(e)}")
 
@@ -38,7 +38,11 @@ def export(
         except Exception as e:
             raise ValueError(f"Failed to export model to ONNX: {str(e)}")
 
-        headers = {"Authorization": f"Bearer {api_key}", "X-AWS-Region": aws_region}
+        headers = {
+            "Authorization": f"Bearer {api_key}",
+            "X-AWS-Region": aws_region,
+            "X-Model-Type": model_type,
+        }
 
         try:
             with open(onnx_path, "rb") as f:

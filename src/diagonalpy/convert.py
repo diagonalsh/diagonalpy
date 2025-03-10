@@ -9,11 +9,13 @@ from diagonalpy.sklearn.linear_model import (
 def convert(model: Any) -> None:
     if isinstance(model, LinearRegression):
         pytorch_model, input_size = convert_linear_regression(model)
+        model_type = "regression"
     elif isinstance(model, LogisticRegression):
         pytorch_model, input_size = convert_logistic_regression(model)
+        model_type = "classification"
     else:
         raise NotImplementedError(
             f"Convert not currently implemented for {type(model)}"
         )
 
-    return pytorch_model, input_size
+    return pytorch_model, input_size, model_type
