@@ -54,14 +54,6 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y build-essential cmake libprotobuf-dev protobuf-compiler
 
-    - name: Custom build for Python 3.13 with ONNX
-      # if: matrix.python-version == '3.13' && matrix.dependency-set.onnx == '1.17.0'
-      run: |
-        git clone https://github.com/onnx/onnx.git
-        cd onnx
-        git checkout v1.17.0
-        ONNX_ML=1 CMAKE_ARGS="-DONNX_USE_PROTOBUF_SHARED_LIBS=ON" pip install -e .
-
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v5
       with:
