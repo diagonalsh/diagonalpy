@@ -116,7 +116,7 @@ def convert_sklearn_linear_to_pytorch(
 
     # Convert weights and bias
     weights = torch.FloatTensor(sklearn_model.coef_)
-    bias = torch.FloatTensor([sklearn_model.intercept_])
+    bias = torch.FloatTensor(np.array([sklearn_model.intercept_]))
 
     # Assign parameters
     pytorch_model.linear.weight.data = weights.view(1, -1)
@@ -254,11 +254,11 @@ def convert_sklearn_classifier_to_pytorch(
 
     # Convert weights and bias
     if len(sklearn_model.coef_.shape) == 1:
-        weights = torch.FloatTensor([sklearn_model.coef_])
+        weights = torch.FloatTensor(np.array([sklearn_model.coef_]))
     else:
         weights = torch.FloatTensor(sklearn_model.coef_)
     if is_binary:
-        bias = torch.FloatTensor([sklearn_model.intercept_])
+        bias = torch.FloatTensor(np.array([sklearn_model.intercept_]))
     else:
         bias = torch.FloatTensor(sklearn_model.intercept_)
 
@@ -322,7 +322,7 @@ def verify_conversion_logistic_regression(
                 pytorch_pred = np.column_stack([1 - pytorch_pred, pytorch_pred])
 
             # Compare predictions
-            return np.allclose(sklearn_pred, pytorch_pred, rtol=rtol)
+            return np.max(np.abs(sklearn_pred - pytorch_pred)) < rtol
         else:
             sklearn_pred = sklearn_model.predict(X)
             if len(sklearn_model.classes_) > 2:
