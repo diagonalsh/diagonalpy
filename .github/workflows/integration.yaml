@@ -41,8 +41,6 @@ jobs:
             dependency-set: {'scikit-learn': '1.2.0', 'numpy': '1.24.0', 'onnx': '1.13.0', 'torch': '1.10.0'}
           - python-version: '3.13'
             dependency-set: {'scikit-learn': '1.2.0', 'numpy': '1.24.0', 'onnx': '1.13.0', 'torch': '1.10.0'}
-          - python-version: '3.13'
-            dependency-set: {'scikit-learn': '1.6.1', 'numpy': '2.2.1', 'onnx': '1.17.0', 'torch': '2.6.0'}
 
     name: ${{ matrix.os }} - Python ${{ matrix.python-version }} - Dependencies ${{ toJSON(matrix.dependency-set) }}
 
@@ -55,6 +53,14 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y build-essential cmake libprotobuf-dev protobuf-compiler
+
+    - name: Custom build for Python 3.13 with ONNX
+      # if: matrix.python-version == '3.13' && matrix.dependency-set.onnx == '1.17.0'
+      run: |
+        git clone https://github.com/onnx/onnx.git
+        cd onnx
+        git checkout v1.17.0
+        ONNX_ML=1 CMAKE_ARGS="-DONNX_USE_PROTOBUF_SHARED_LIBS=ON" pip install -e .
 
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v5
