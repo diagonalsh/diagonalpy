@@ -65,25 +65,40 @@ jobs:
         curl -LsSf https://astral.sh/uv/install.sh | sh
 
     - name: Install dependencies
+      env:
+        UV_SYSTEM_PYTHON: "1"
+        UV_NO_VENV: "1"
+        UV_NO_GIT: "1"
       shell: bash
       run: |
         uv pip install pytest --system
-        if [ "${{ matrix.dependency-set.scikit-learn }}" != "latest" ]; then
+
+        # Handle dependency versions
+        if [[ "${{ matrix.dependency-set.scikit-learn }}" != "latest" ]]; then
           uv pip install "scikit-learn==${{ matrix.dependency-set.scikit-learn }}" --system
         else
           uv pip install "scikit-learn" --system
         fi
-        if [ "${{ matrix.dependency-set.numpy }}" != "latest" ]; then
+
+        if [[ "${{ matrix.dependency-set.numpy }}" != "latest" ]]; then
           uv pip install "numpy==${{ matrix.dependency-set.numpy }}" --system
         else
           uv pip install "numpy" --system
         fi
-        if [ "${{ matrix.dependency-set.onnx }}" != "latest" ]; then
+
+        if [[ "${{ matrix.dependency-set.onnx }}" != "latest" ]]; then
           uv pip install "onnx==${{ matrix.dependency-set.onnx }}" --system
         else
           uv pip install "onnx" --system
         fi
-        uv pip install torch --index-url https://download.pytorch.org/whl/cpu --system
+
+        # Install torch
+        if [[ "${{ runner.os }}" == "Windows" ]]; then
+          uv pip install torch --index-url https://download.pytorch.org/whl/cpu --system
+        else
+          uv pip install torch --index-url https://download.pytorch.org/whl/cpu --system
+        fi
+
         uv pip install -e . --system
 
     - name: Show installed versions
