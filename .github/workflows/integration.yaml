@@ -36,9 +36,11 @@ jobs:
         ]
         exclude:
           - python-version: '3.9'
-            dependency-set: {'scikit-learn': '1.6.1', 'numpy': '2.2.1', 'onnx': '1.17.0'}
+            dependency-set: {'scikit-learn': '1.6.1', 'numpy': '2.2.1', 'onnx': '1.17.0', 'torch': '2.6.0'}
           - python-version: '3.12'
-            dependency-set: {'scikit-learn': '1.2.0', 'numpy': '1.24.0', 'onnx': '1.13.0'}
+            dependency-set: {'scikit-learn': '1.2.0', 'numpy': '1.24.0', 'onnx': '1.13.0', 'torch': '1.10.0'}
+          - python-version: '3.13'
+            dependency-set: {'scikit-learn': '1.2.0', 'numpy': '1.24.0', 'onnx': '1.13.0', 'torch': '1.10.0'}
 
     name: ${{ matrix.os }} - Python ${{ matrix.python-version }} - Dependencies ${{ toJSON(matrix.dependency-set) }}
 
