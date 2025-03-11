@@ -18,17 +18,20 @@ jobs:
           {
             'scikit-learn': '1.6.1',
             'numpy': '2.2.1',
-            'onnx': '1.17.0'
+            'onnx': '1.17.0',
+            'torch': '2.6.0'
           },
           {
             'scikit-learn': '1.2.0',
             'numpy': '1.24.0',
-            'onnx': '1.13.0'
+            'onnx': '1.13.0',
+            'torch': '1.10.0'
           },
           {
             'scikit-learn': 'latest',
             'numpy': 'latest',
-            'onnx': 'latest'
+            'onnx': 'latest',
+            'torch': 'latest'
           }
         ]
         exclude:
