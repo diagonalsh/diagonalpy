@@ -239,23 +239,27 @@ def convert_sklearn_classifier_to_pytorch(
         raise ValueError("Model must be trained before conversion")
 
     # Get input dimension and number of classes
-    input_dim = sklearn_model.coef_.shape[1]
 
     # Handle both binary and multilabel cases
     is_binary = len(sklearn_model.classes_) == 2
     output_dim = 1 if is_binary else len(sklearn_model.classes_)
 
+    if len(sklearn_model.coef_.shape) == 1:
+        input_dim = sklearn_model.coef_.shape[0]
+    else:
+        input_dim = sklearn_model.coef_.shape[1]
+
     # Create PyTorch model
     pytorch_model = LogisticRegressionPyTorch(input_dim, output_dim=output_dim)
 
     # Convert weights and bias
-    if is_binary:
-        # For binary case, sklearn stores one set of coefficients
+    if len(sklearn_model.coef_.shape) == 1:
+        weights = torch.FloatTensor([sklearn_model.coef_])
+    else:
         weights = torch.FloatTensor(sklearn_model.coef_)
+    if is_binary:
         bias = torch.FloatTensor([sklearn_model.intercept_])
     else:
-        # For multilabel case, sklearn stores coefficients for each class
-        weights = torch.FloatTensor(sklearn_model.coef_)
         bias = torch.FloatTensor(sklearn_model.intercept_)
 
     # Assign parameters
@@ -306,23 +310,25 @@ def verify_conversion_logistic_regression(
     """
     X_torch = torch.FloatTensor(X)
     # Get predictions from both models
-    if hasattr(sklearn_model, "predict_proba"):
-        sklearn_pred = sklearn_model.predict_proba(X)
-        # Convert input to PyTorch tensor
-        with torch.no_grad():
-            pytorch_pred = pytorch_model(X_torch).detach().numpy()
+
+    with torch.no_grad():
+        pytorch_pred = pytorch_model(X_torch).detach().numpy()
+        if hasattr(sklearn_model, "predict_proba"):
+            sklearn_pred = sklearn_model.predict_proba(X)
+            # Convert input to PyTorch tensor
 
             # For binary case, convert pytorch output to match sklearn format
             if len(sklearn_model.classes_) == 2:
                 pytorch_pred = np.column_stack([1 - pytorch_pred, pytorch_pred])
 
-        # Compare predictions
-        return np.allclose(sklearn_pred, pytorch_pred, rtol=rtol)
-    else:
-        sklearn_pred = sklearn_model.predict(X)
-        pytorch_pred = pytorch_model(X_torch).detach().numpy().argmax(1)
-        accuracy = np.mean(sklearn_pred == pytorch_pred)
-        return accuracy > (1.0 - rtol)
+            # Compare predictions
+            return np.allclose(sklearn_pred, pytorch_pred, rtol=rtol)
+        else:
+            sklearn_pred = sklearn_model.predict(X)
+            if len(sklearn_model.classes_) > 2:
+                pytorch_pred = pytorch_pred.argmax(1)
+            accuracy = np.mean(sklearn_pred == pytorch_pred)
+            return accuracy > (1.0 - rtol)
 
 
 def convert_logistic_regression(model: Any) -> nn.Module:
@@ -340,7 +346,13 @@ def convert_logistic_regression(model: Any) -> nn.Module:
     nn.Module
         Converted PyTorch model
     """
-    test_array = np.random.randn(100, model.coef_.shape[1])
+
+    if len(model.coef_.shape) == 1:
+        n_coefs = model.coef_.shape[0]
+    else:
+        n_coefs = model.coef_.shape[1]
+
+    test_array = np.random.randn(100, n_coefs)
 
     rtol = 1e-10
     while rtol <= 1e-2:
