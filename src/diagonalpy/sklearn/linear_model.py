@@ -111,7 +111,7 @@ def convert_sklearn_linear_to_pytorch(
         raise ValueError("Model must be trained before conversion")
 
     # Create PyTorch model
-    input_dim = sklearn_model.coef_.shape[0]
+    input_dim = sklearn_model.coef_.shape[-1]
     pytorch_model = LinearRegressionPyTorch(input_dim, bias=True)
 
     # Convert weights and bias
@@ -174,7 +174,7 @@ def verify_conversion_linear_regression(
 
 
 def convert_linear_regression(model: Any) -> nn.Module:
-    test_array = np.random.randn(100, model.coef_.shape[0])
+    test_array = np.random.randn(100, model.coef_.shape[-1])
 
     rtol = 1e-10
     while rtol <= 1e-2:
@@ -186,7 +186,7 @@ def convert_linear_regression(model: Any) -> nn.Module:
             rtol *= 10
         else:
             print(f"Conversion succeeded at {rtol:.1e}")
-            return pytorch_model, model.coef_.shape[0]
+            return pytorch_model, model.coef_.shape[-1]
 
     export_without_meeting_tolerance_str = os.getenv(
         "DIAGONALPY_EXPORT_WITHOUT_MEETING_TOLERANCE", "False"
@@ -196,7 +196,7 @@ def convert_linear_regression(model: Any) -> nn.Module:
     )
     if export_without_meeting_tolerance:
         warnings.warn("Exporting despite not fulfilling tolerance threshold of 1e-2")
-        return pytorch_model, model.coef_.shape[0]
+        return pytorch_model, model.coef_.shape[-1]
     else:
         raise ValueError("Could not convert model within acceptable tolerance")
 
@@ -244,10 +244,7 @@ def convert_sklearn_classifier_to_pytorch(
     is_binary = len(sklearn_model.classes_) == 2
     output_dim = 1 if is_binary else len(sklearn_model.classes_)
 
-    if len(sklearn_model.coef_.shape) == 1:
-        input_dim = sklearn_model.coef_.shape[0]
-    else:
-        input_dim = sklearn_model.coef_.shape[1]
+    input_dim = sklearn_model.coef_.shape[-1]
 
     # Create PyTorch model
     pytorch_model = LogisticRegressionPyTorch(input_dim, output_dim=output_dim)
@@ -347,10 +344,7 @@ def convert_logistic_regression(model: Any) -> nn.Module:
         Converted PyTorch model
     """
 
-    if len(model.coef_.shape) == 1:
-        n_coefs = model.coef_.shape[0]
-    else:
-        n_coefs = model.coef_.shape[1]
+    n_coefs = model.coef_.shape[-1]
 
     test_array = np.random.randn(100, n_coefs)
 
@@ -374,7 +368,7 @@ def convert_logistic_regression(model: Any) -> nn.Module:
                     f"Conversion succeeded at tolerance {rtol:.1e} on output classifications"
                 )
 
-            return pytorch_model, model.coef_.shape[0]
+            return pytorch_model, model.coef_.shape[-1]
 
     export_without_meeting_tolerance_str = os.getenv(
         "DIAGONALPY_EXPORT_WITHOUT_MEETING_TOLERANCE", "False"
@@ -384,6 +378,6 @@ def convert_logistic_regression(model: Any) -> nn.Module:
     )
     if export_without_meeting_tolerance:
         warnings.warn("Exporting despite not fulfilling tolerance threshold of 1e-2")
-        return pytorch_model, model.coef_.shape[0]
+        return pytorch_model, model.coef_.shape[-1]
     else:
         raise ValueError("Could not convert model within acceptable tolerance")
