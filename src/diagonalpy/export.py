@@ -1,5 +1,6 @@
 import os
 import requests
+from typing import Optional
 from pathlib import Path
 import tempfile
 from typing import Any
@@ -12,8 +13,7 @@ API_URL = "https://api.diagonal.sh/model-upload-api"
 
 
 def export(
-    model: Any,
-    model_name: str,
+    model: Any, model_name: str, model_id: Optional[str] = None
 ) -> dict[str, Any]:
     api_key = os.getenv("DIAGONALSH_API_KEY")
     if api_key is None:
@@ -43,6 +43,9 @@ def export(
             "X-AWS-Region": aws_region,
             "X-Model-Type": model_type,
         }
+
+        if model_id is not None:
+            headers["X-Model-Id"] = model_id
 
         try:
             with open(onnx_path, "rb") as f:
