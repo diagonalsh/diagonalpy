@@ -17,10 +17,10 @@ pip install diagonalpy
 
 ### Export a Model
 
-```
+```python
 import numpy as np
 from sklearn.linear_model import LinearRegression
-from diagonalpy import export
+from diagonalpy.export import export
 
 # Train a scikit-learn model
 model = LinearRegression()
@@ -29,12 +29,12 @@ y = np.sum(X, axis=1) + np.random.randn(100)
 model.fit(X, y)
 
 # Export the model
-export(model, "my-awesome-model")
+export(model, "my-wonderful-model")
 ```
 
 ### Delete a deployed model
 ```python
-from diagonalpy import delete
+from diagonalpy.delete import delete
 
 delete("model-id-from-export")
 ```
