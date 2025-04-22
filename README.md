@@ -39,12 +39,6 @@ from diagonalpy.delete import delete
 delete("model-id-from-export")
 ```
 
-## Environment Setup
-```bash
-export DIAGONALSH_API_KEY="your_api_key"
-export DIAGONALSH_REGION="your_aws_region"
-```
-
 ## Supported Models
 ### Regression Models:
 
@@ -85,11 +79,9 @@ DIAGONALSH_API_KEY: Your Diagonal.sh API key (required)
 
 DIAGONALSH_REGION: AWS region for deployment (required) - currently, only "eu-west-3" is valid
 
-## Conversion Verification
-The library automatically verifies conversion accuracy with increasing tolerances:
 
-1. Starts with 1e-10 relative tolerance
-
-2. Gradually increases tolerance up to 1e-2
-
-3. Fails or warns based on environment settings
+### Environment Setup
+```bash
+export DIAGONALSH_API_KEY="your_api_key"
+export DIAGONALSH_REGION="your_aws_region"
+```
