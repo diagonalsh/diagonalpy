@@ -79,9 +79,11 @@ DIAGONALSH_API_KEY: Your Diagonal.sh API key (required)
 
 DIAGONALSH_REGION: AWS region for deployment (required) - currently, only "eu-west-3" is valid
 
-
-### Environment Setup
+#### Environment Setup
 ```bash
 export DIAGONALSH_API_KEY="your_api_key"
 export DIAGONALSH_REGION="your_aws_region"
 ```
+
+## License
+This package is distributed under CC BY-ND license, which allows commercial use of the unmodified software and prohibits the distribution of any modifications of this software.
