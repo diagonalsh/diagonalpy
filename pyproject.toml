@@ -1,6 +1,6 @@
 [project]
 name = "diagonalpy"
-version = "0.1.0"
+version = "0.1.1"
 description = "diagonalsh sdk for python"
 authors = [
     {name = "Leon Luithlen"}
