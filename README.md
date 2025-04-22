@@ -13,6 +13,12 @@ A Python library for converting scikit-learn linear models to PyTorch and export
 pip install diagonalpy
 ```
 
+torch is a dependency of `diagonalpy`, so if it isn't installed in the installation environment, you'll also have to run
+
+```bash
+pip install torch
+```
+
 ## Quick Start
 
 ### Export a Model
