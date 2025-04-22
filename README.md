@@ -1,4 +1,4 @@
-# DiagonalPy
+# diagonalpy
 
 A Python library for converting scikit-learn linear models to PyTorch and exporting them for production use.
 
