@@ -9,6 +9,8 @@ A Python library for converting scikit-learn linear models to PyTorch and export
 
 ## Installation
 
+Currently, `diagonalpy` is available for Python 3.9, 3.10, 3.11 and 3.12. Support for 3.13 will be added as soon as dependencies allow it.
+
 ```bash
 pip install diagonalpy
 ```
