@@ -1,7 +1,8 @@
 [project]
 name = "diagonalpy"
-version = "0.1.1"
-description = "diagonalsh sdk for python"
+version = "0.1.2"
+description = "export linear models from scikit-learn to diagonal.sh"
+readme = "README.md"
 authors = [
     {name = "Leon Luithlen"}
 ]
