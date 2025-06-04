@@ -34,7 +34,9 @@ def deploy(
         onnx_path = Path(temp_dir) / f"{model_name}.onnx"
 
         try:
-            torch.onnx.export(pytorch_model, torch.randn(1, input_size), onnx_path)
+            torch.onnx.export(
+                pytorch_model, torch.randn(1, input_size), onnx_path, opset_version=21
+            )
         except Exception as e:
             raise ValueError(f"Failed to export model to ONNX: {str(e)}")
 
