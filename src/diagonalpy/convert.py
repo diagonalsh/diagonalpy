@@ -21,4 +21,6 @@ def convert(model: Any) -> None:
             f"Convert not currently implemented for {type(model)}"
         )
 
+    pytorch_model.eval()
+
     return pytorch_model, input_size, model_type

@@ -1,6 +1,6 @@
 # diagonalpy
 
-`diagonalpy` is a Python library for exporting scikit-learn linear models to the inference platform diagonal.sh
+`diagonalpy` is a Python library for deploying scikit-learn linear models to the inference platform diagonal.sh
 
 ## Features
 
@@ -28,7 +28,7 @@ pip install torch
 ```python
 import numpy as np
 from sklearn.linear_model import LinearRegression
-from diagonalpy.export import export
+from diagonalpy.deploy import deploy
 
 # Train a scikit-learn model
 model = LinearRegression()
@@ -37,14 +37,14 @@ y = np.sum(X, axis=1) + np.random.randn(100)
 model.fit(X, y)
 
 # Export the model
-export(model, "my-wonderful-model")
+deploy(model, "my-wonderful-model")
 ```
 
 ### Delete a deployed model
 ```python
 from diagonalpy.delete import delete
 
-delete("model-id-from-export")
+delete("model-id-from-deployment")
 ```
 
 ## Supported Models

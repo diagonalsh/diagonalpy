@@ -12,7 +12,7 @@ API_TIMEOUT = 600  # seconds
 API_URL = "https://api.diagonal.sh/model-upload-api"
 
 
-def export(
+def deploy(
     model: Any, model_name: str, model_id: Optional[str] = None
 ) -> dict[str, Any]:
     api_key = os.getenv("DIAGONALSH_API_KEY")
@@ -34,7 +34,9 @@ def export(
         onnx_path = Path(temp_dir) / f"{model_name}.onnx"
 
         try:
-            torch.onnx.export(pytorch_model, torch.randn(1, input_size), onnx_path)
+            torch.onnx.export(
+                pytorch_model, torch.randn(1, input_size), onnx_path, opset_version=19
+            )
         except Exception as e:
             raise ValueError(f"Failed to export model to ONNX: {str(e)}")
 

@@ -1,6 +1,6 @@
 import numpy as np
 from sklearn.linear_model import LinearRegression
-from diagonalpy.export import export
+from diagonalpy.deploy import deploy
 
 if __name__ == "__main__":
     lr = LinearRegression()
@@ -9,4 +9,4 @@ if __name__ == "__main__":
 
     lr.fit(X, y)
 
-    export(lr, "test-model3")
+    deploy(lr, "test-model3")
