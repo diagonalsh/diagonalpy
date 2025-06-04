@@ -12,7 +12,7 @@ API_TIMEOUT = 600  # seconds
 API_URL = "https://api.diagonal.sh/model-upload-api"
 
 
-def export(
+def deploy(
     model: Any, model_name: str, model_id: Optional[str] = None
 ) -> dict[str, Any]:
     api_key = os.getenv("DIAGONALSH_API_KEY")
