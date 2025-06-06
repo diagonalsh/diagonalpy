@@ -5,7 +5,7 @@
 ## Features
 
 - Save scikit-learn linear models locally, as `onnx` file
-- Deploy scikit-learn linear models the diagonal.sh inference platform
+- Deploy scikit-learn linear models to the diagonal.sh inference platform
 - Delete models deployed on the diagonal.sh inference platform
 
 ## Installation
@@ -51,7 +51,7 @@ Once you have an account *and created a console key*, you can set it to the env 
 ```python
 import os
 os.environ['DIAGONALSH_API_KEY'] = 'dia_console_...'
-os.environ['DIAOGNALSH_REGION'] = 'eu-west-3'
+os.environ['DIAGONALSH_REGION'] = 'eu-west-3'
 ```
 
 Then, you can deploy directly from `diagonalpy`:
@@ -133,7 +133,7 @@ DIAGONALSH_REGION: AWS region for deployment (required) - currently, only "eu-we
 #### Environment Setup
 ```bash
 export DIAGONALSH_API_KEY="your_api_key"
-export DIAGONALSH_REGION="your_aws_region"
+export DIAGONALSH_REGION="eu-west-3"
 ```
 
 ## License
