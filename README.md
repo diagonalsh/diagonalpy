@@ -4,7 +4,8 @@
 
 ## Features
 
-- Export scikit-learn linear models the diagonal.sh inference platform
+- Save scikit-learn linear models locally, as `onnx` file
+- Deploy scikit-learn linear models the diagonal.sh inference platform
 - Delete models deployed on the diagonal.sh inference platform
 
 ## Installation
@@ -23,7 +24,7 @@ pip install torch
 
 ## Quick Start
 
-### Export a Model
+### Save a Model
 
 ```python
 import numpy as np
@@ -41,6 +42,9 @@ save(model, "/my-path/model.onnx")
 ```
 
 You can then upload the model manually at [console.diagonal.sh](https://console.diagonal.sh).
+
+
+### Deploy a Model
 
 Once you have an account *and created a console key*, you can set it to the env variable `DIAGONALSH_API_KEY`, and deploy directly. You'll also have to set the env variable `DIAGONALSH_REGION` to `eu-west-3`. This is the snippet:
 
