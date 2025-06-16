@@ -13,7 +13,10 @@ API_URL = "https://api.diagonal.sh/model-upload-api"
 
 
 def deploy(
-    model: Any, model_name: str, model_id: Optional[str] = None
+    model: Any,
+    model_name: str,
+    model_id: Optional[str] = None,
+    model_route: Optional[str] = None,
 ) -> dict[str, Any]:
     api_key = os.getenv("DIAGONALSH_API_KEY")
     if api_key is None:
@@ -44,6 +47,7 @@ def deploy(
             "Authorization": f"Bearer {api_key}",
             "X-AWS-Region": aws_region,
             "X-Model-Type": model_type,
+            "X-Model-Route": model_route,
         }
 
         if model_id is not None:
